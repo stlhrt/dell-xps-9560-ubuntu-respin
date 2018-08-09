@@ -4,7 +4,7 @@ ISOFILE=$1
 KERNEL=$2
 KERNELVERSION=$3
 
-KERNELARGS=" -u "
+KERNELARGS=" -u --upgrade "
 GRUBOPTIONS="quiet splash acpi_rev_override=1"
 
 # Parse ARGS
@@ -52,6 +52,7 @@ installpackages+="powertop "
 # Streaming and codecs for correct video encoding/play
 installpackages+="va-driver-all "
 installpackages+="vainfo "
+installpackages+="mc less tmux apt-transport-https ca-certificates curl software-properties-common "
 if [ -n "$COMPATIBILITY" ]; then
 	if [ "$COMPATIBILITY" == "bionicbeaver" ]; then
 		installpackages+="libva2 "
@@ -90,10 +91,12 @@ sync;
 ./isorespin.sh -i $ISOFILE \
 	$KERNELARGS \
 	-r "ppa:graphics-drivers/ppa" \
+	-r "ppa:ansible/ansible" \
 	-p "$installpackages" \
 	-f wrapper-network.sh \
 	-f wrapper-nvidia.sh \
 	-f services/gpuoff.service \
 	-c wrapper-network.sh \
 	-c wrapper-nvidia.sh \
+	-c wrapper-docker.sh \
 	-g "$GRUBOPTIONS"

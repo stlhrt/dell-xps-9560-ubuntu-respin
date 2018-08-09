@@ -1,2 +1,8 @@
 destination/*
 origin/*
+isorespin/*
+.isorespin.*
+isorespin.log
+isorespin.sh
+isorespin.tpl
+*.iso
